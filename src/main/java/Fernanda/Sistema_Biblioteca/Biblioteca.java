@@ -1,7 +1,6 @@
 package Fernanda.Sistema_Biblioteca;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 import static Bibliotecas.Coletar.*;
 
 public class Biblioteca {
@@ -148,20 +147,16 @@ public class Biblioteca {
         boolean continuar = true;
         int opcao = coletarInt("Sua opção: ", 1, 10);
 
-        Scanner sc = new Scanner(System.in);
         switch (opcao) {
             case 1 -> {
-                System.out.println("Digite o nome: ");
-                String nome = sc.nextLine().trim();
+                String nome = coletarString("Digite o nome:");
                 Leitor leitor = this.cadastrarLeitor(nome);
                 this.leitoresCadastrados.add(leitor);
                 System.out.println("Usuário cadastrado com sucesso!");
             }
             case 2 -> {
-                System.out.println("Digite o título da obra: ");
-                String titulo = sc.nextLine();
-                System.out.println("Digite o nome do autor: ");
-                String autor = sc.nextLine();
+                String titulo = coletarString("Digite o título da obra: ");
+                String autor = coletarString("Digite o nome do autor: ");
                 Livro livro = this.cadastrarLivro(titulo, autor);
                 this.livrosCadastrados.add(livro);
                 this.livrosDisponiveis.add(livro);
@@ -170,11 +165,15 @@ public class Biblioteca {
             case 3 -> {
                 if (this.livrosDisponiveis.size() > 0 && this.leitoresCadastrados.size() > 0) {
                     this.exibirLeitoresCadastrados();
-                    int op1 = coletarInt("Escolha o usuário: ", 1, this.leitoresCadastrados.size()) - 1;
+                    int usuario = coletarInt
+                            ("Escolha o usuário: ", 1, this.leitoresCadastrados.size()) - 1;
                     this.exibirLivrosDisponiveis();
-                    int op2 = coletarInt("Escolha o livro: ", 1, this.livrosDisponiveis.size()) - 1;
-                    int op3 = coletarInt("Escolha quantos dias de empréstimo: ", 10, 90);
-                    this.emprestarLivro(this.livrosDisponiveis.get(op2), this.leitoresCadastrados.get(op1), op3);
+                    int livroEscolhido = coletarInt
+                            ("Escolha o livro: ", 1, this.livrosDisponiveis.size()) - 1;
+                    int diasDeEmprestimo = coletarInt
+                            ("Escolha quantos dias de empréstimo: ", 10, 90);
+                    this.emprestarLivro
+                            (this.livrosDisponiveis.get(livroEscolhido), this.leitoresCadastrados.get(usuario), diasDeEmprestimo);
                 } else {
                     if (this.livrosCadastrados.size() == 0) {
                         System.out.println("Não há livros cadastrados. Cadastre algum livro primeiro.");
@@ -210,6 +209,7 @@ public class Biblioteca {
         do {
             continuar = this.sistema();
         } while (continuar);
+        fecharScanner();
         System.out.println("Encerrando... Tenha um bom dia!");
     }
 }
