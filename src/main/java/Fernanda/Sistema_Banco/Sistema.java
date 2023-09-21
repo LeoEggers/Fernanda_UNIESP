@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import static Bibliotecas.Coletar.*;
+
 public class Sistema {
     ArrayList<Cliente> listaclientes;
 
@@ -75,47 +77,6 @@ public class Sistema {
         return outrosClientes;
     }
 
-    // Métodos para coletar entrada do usuário e validar valores.
-    private int coletarINT(String mensagem_de_exibicao, int valorMin, int valorMax) {
-        Scanner sc = new Scanner(System.in);
-        int opcao;
-
-        do {
-            System.out.println(mensagem_de_exibicao);
-            if (sc.hasNextInt()) {
-                opcao = sc.nextInt(); sc.nextLine();
-                if (opcao >= valorMin && opcao <= valorMax) {
-                    return opcao;
-                } else {
-                    System.out.println("Erro! O valor deve estar entre " + valorMin + " e " + valorMax + ". Tente novamente.");
-                }
-            } else {
-                System.out.println("Erro! Entrada inválida. Digite um número inteiro.");
-                sc.nextLine();
-            }
-        } while (true);
-    }
-
-    private double coletarDoublePositivo(String mensagem_de_exibicao) {
-        Scanner sc = new Scanner(System.in);
-        double valor;
-
-        do {
-            System.out.println(mensagem_de_exibicao);
-            if (sc.hasNextDouble()) {
-                valor = sc.nextDouble();
-                if (valor >= 0) {
-                    return valor;
-                } else {
-                    System.out.println("Erro! O valor deve ser positivo. Tente novamente.");
-                }
-            } else {
-                System.out.println("Erro! Entrada inválida. Digite um número double positivo.");
-                sc.nextLine();
-            }
-        } while (true);
-    }
-
     public void exibirSistema(){
         // switchcase principal.
         this.gerarCadastroAutomatico();
@@ -124,7 +85,7 @@ public class Sistema {
         boolean continuar = true;
 
         do {
-            int opcao1 = coletarINT("""
+            int opcao1 = coletarInt("""
                     1. Entrar.
                     2. Cadastrar novo usuário.
                     3. Encerrar.
@@ -134,15 +95,15 @@ public class Sistema {
             switch (opcao1){
                 case 1 -> {
                     this.exibirClientes();
-                    int opcao2 = coletarINT("Escolha o usuário:",
-                            1, this.listaclientes.size() + 1) - 1;
+                    int opcao2 = coletarInt("Escolha o usuário:", 1, this.listaclientes.size());
                     // abre o próximo switch case.
-                    this.SistemaCliente(this.listaclientes.get(opcao2));
+                    this.SistemaCliente(this.listaclientes.get(opcao2 - 1));
                 }
                 case 2 -> this.cadastrarCliente();
                 case 3 -> continuar = false;
             }
         } while (continuar);
+        fecharScanner();
         System.out.println("Encerrando... Volte sempre!");
     }
 
@@ -153,7 +114,7 @@ public class Sistema {
         boolean continuar = true;
 
         do {
-            int opcao = coletarINT("""
+            int opcao = coletarInt("""
                     1. Consultar saldo.
                     2. Depositar.
                     3. Sacar.
@@ -165,7 +126,7 @@ public class Sistema {
             switch (opcao) {
                 case 1 -> cliente.consultarSaldo();
                 case 2 -> {
-                    double valor = coletarDoublePositivo("Digite o valor do depósito:");
+                    double valor = coletarDouble("Digite o valor do depósito:", 0);
                     cliente.depositar(valor);
                 }
                 case 3 -> {
@@ -173,9 +134,8 @@ public class Sistema {
                         System.out.println("Saldo insuficiente.");
                         cliente.consultarSaldo();
                     } else {
-                        System.out.println(cliente.getSaldo());
-                        System.out.println(cliente.getSaldo() == 0);
-                        double valor = coletarDoublePositivo("Digite o valor do saque:");
+                        cliente.consultarSaldo();
+                        double valor = coletarDouble("Digite o valor do saque:", 0);
                         if (valor > cliente.getSaldo()) {
                             System.out.println("Saldo insuficiente.");
                             cliente.consultarSaldo();
@@ -190,16 +150,15 @@ public class Sistema {
                         System.out.println("Saldo insuficiente.");
                         cliente.consultarSaldo();
                     } else {
-                        System.out.println(cliente.getSaldo());
-                        System.out.println(cliente.getSaldo() == 0);
-                        double valor = coletarDoublePositivo("Digite o valor da transferência: ");
+                        cliente.consultarSaldo();
+                        double valor = coletarDouble("Digite o valor da transferência: ", 0);
                         if (valor > cliente.getSaldo()) {
                             System.out.println("Saldo insuficiente.");
                             cliente.consultarSaldo();
                         } else {
                             ArrayList<Cliente> outrosClientes = this.exibirClientes_Transferencia(cliente);
-                            int receptor = coletarINT("Escolha para quem será feita a transferência: ",
-                                    1, outrosClientes.size()) - 1;
+                            int receptor = coletarInt("Escolha para quem será feita a transferência: ", 1,
+                                    outrosClientes.size()) - 1;
                             cliente.transferir(outrosClientes.get(receptor), valor);
                         }
                     }

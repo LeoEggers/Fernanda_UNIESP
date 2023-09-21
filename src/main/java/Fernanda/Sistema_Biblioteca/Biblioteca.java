@@ -2,6 +2,7 @@ package Fernanda.Sistema_Biblioteca;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import static Bibliotecas.Coletar.*;
 
 public class Biblioteca {
     private ArrayList<Leitor> leitoresCadastrados;
@@ -38,27 +39,6 @@ public class Biblioteca {
 
         System.out.println("Cadastro automático importado com sucesso!");
     }
-
-    public int coletarINT(String mensagem_de_exibicao, int valorMin, int valorMax) {
-        Scanner sc = new Scanner(System.in);
-        int opcao;
-
-        do {
-            System.out.println(mensagem_de_exibicao);
-            if (sc.hasNextInt()) {
-                opcao = sc.nextInt(); sc.nextLine();
-                if (opcao >= valorMin && opcao <= valorMax) {
-                    return opcao;
-                } else {
-                    System.out.println("Erro! O valor deve estar entre " + valorMin + " e " + valorMax + ". Tente novamente.");
-                }
-            } else {
-                System.out.println("Erro! Entrada inválida. Digite um número inteiro.");
-                sc.nextLine();
-            }
-        } while (true);
-    }
-
 
     private void emprestarLivro(Livro livro, Leitor leitor, int dias){
         if (livro.isDisponivel()){
@@ -166,7 +146,7 @@ public class Biblioteca {
                 """);
 
         boolean continuar = true;
-        int opcao = coletarINT("Sua opção: ", 1, 10);
+        int opcao = coletarInt("Sua opção: ", 1, 10);
 
         Scanner sc = new Scanner(System.in);
         switch (opcao) {
@@ -190,10 +170,10 @@ public class Biblioteca {
             case 3 -> {
                 if (this.livrosDisponiveis.size() > 0 && this.leitoresCadastrados.size() > 0) {
                     this.exibirLeitoresCadastrados();
-                    int op1 = coletarINT("Escolha o usuário: ", 1, this.leitoresCadastrados.size()) - 1;
+                    int op1 = coletarInt("Escolha o usuário: ", 1, this.leitoresCadastrados.size()) - 1;
                     this.exibirLivrosDisponiveis();
-                    int op2 = coletarINT("Escolha o livro: ", 1, this.livrosDisponiveis.size()) - 1;
-                    int op3 = coletarINT("Escolha quantos dias de empréstimo: ", 10, 90);
+                    int op2 = coletarInt("Escolha o livro: ", 1, this.livrosDisponiveis.size()) - 1;
+                    int op3 = coletarInt("Escolha quantos dias de empréstimo: ", 10, 90);
                     this.emprestarLivro(this.livrosDisponiveis.get(op2), this.leitoresCadastrados.get(op1), op3);
                 } else {
                     if (this.livrosCadastrados.size() == 0) {
@@ -208,7 +188,7 @@ public class Biblioteca {
             case 4 -> {
                 if (this.livrosEmprestados.size() != 0) {
                     this.exibirLivrosEmprestados();
-                    int op1 = coletarINT("Escolha qual livro será devolvido:", 1, this.livrosEmprestados.size()) - 1;
+                    int op1 = coletarInt("Escolha qual livro será devolvido:", 1, this.livrosEmprestados.size()) - 1;
                     this.receberLivro(this.livrosEmprestados.get(op1), this.livrosEmprestados.get(op1).getLeitor());
                 } else {
                     System.out.println("No momento não há livros a serem recebidos.");

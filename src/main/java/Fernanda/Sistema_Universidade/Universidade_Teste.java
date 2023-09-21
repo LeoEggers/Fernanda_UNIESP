@@ -1,82 +1,9 @@
 package Fernanda.Sistema_Universidade;
 
 import java.util.ArrayList;
-import java.util.Scanner;
+import static Bibliotecas.Coletar.*;
 
 public class Universidade_Teste {
-    public static int coletarINT(String mensagem_de_exibicao, int valorMin, int valorMax) {
-        Scanner sc = new Scanner(System.in);
-        int opcao;
-
-        while (true) {
-            System.out.println(mensagem_de_exibicao);
-            if (sc.hasNextInt()) {
-                opcao = sc.nextInt(); sc.nextLine();
-                if (opcao >= valorMin && opcao <= valorMax) {
-                    return opcao;
-                } else {
-                    System.out.println("Erro! O valor deve estar entre " + valorMin + " e " + valorMax + ". Tente novamente.");
-                }
-            } else {
-                System.out.println("Erro! Entrada inválida. Digite um número inteiro.");
-                sc.nextLine();
-            }
-        }
-    }
-    public static double coletarNota(String mensagem_de_exibicao) {
-        Scanner sc = new Scanner(System.in);
-        double valor;
-
-        while (true) {
-            System.out.println(mensagem_de_exibicao);
-            String input = sc.nextLine().replace(",", ".");
-
-            try {
-                valor = Double.parseDouble(input);
-                if (valor >= 0 && valor <= 10) {
-                    return valor;
-                } else {
-                    System.out.println("Erro! O valor deve estar entre 0 e 10. Tente novamente.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Erro! Entrada inválida. Digite um número double entre 0 e 10.");
-            }
-        }
-    }
-    public static double coletarSalario(String mensagem_de_exibicao) {
-        Scanner sc = new Scanner(System.in);
-        double valor;
-
-        while (true) {
-            System.out.println(mensagem_de_exibicao);
-            String input = sc.nextLine().replace(",", ".");
-
-            try {
-                valor = Double.parseDouble(input);
-                if (valor >= 0) {
-                    return valor;
-                } else {
-                    System.out.println("Erro! O valor deve ser positivo. Tente novamente.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Erro! Entrada inválida. Digite um número double positivo.");
-            }
-        }
-    }
-    public static String coletarString(String mensagem_de_exibicao){
-        Scanner sc = new Scanner(System.in);
-        String nome;
-
-        while (true) {
-            System.out.println(mensagem_de_exibicao);
-            nome = sc.nextLine().trim();
-            if (nome.isEmpty()){
-                System.out.println("Tente novamente. A entrada não pode ser vazia.");
-            } else {
-                return nome;
-            }
-        }
-    }
 
     public static void main(String[] args) {
 
@@ -86,7 +13,7 @@ public class Universidade_Teste {
         boolean encerrar = false;
         System.out.println("Seja bem vindo!");
         do {
-            int opcao = coletarINT("""
+            int opcao = coletarInt("""
                     Escolha a sua opção:
                     1. Cadastrar Professor:
                     2. Cadastrar Aluno:
@@ -96,17 +23,17 @@ public class Universidade_Teste {
             switch (opcao){
                 case 1 -> {
                     String nomeProfessor = coletarString("Digite o nome: ");
-                    int idadeProfessor = coletarINT("Digite a idade:", 1, 999);
+                    int idadeProfessor = coletarInt("Digite a idade:", 1);
                     String especializacaoProfessor = coletarString("Digite a especialização: ");
-                    double professorSalario = coletarSalario("Digite o salário: ");
+                    double professorSalario = coletarDouble("Digite o salário: ", 0);
                     listaProfessores.add(new Professor(nomeProfessor, idadeProfessor, especializacaoProfessor, professorSalario));
                 }
                 case 2 -> {
                     String nomeAluno = coletarString("Digite o nome: ");
-                    int idadeAluno = coletarINT("Digite a idade: ", 1, 999);
-                    int matriculaAluno = coletarINT("Digite a matrícula: ", 1, 100000);
-                    double nota1Aluno = coletarNota("Digite a nota 1: ");
-                    double nota2Aluno = coletarNota("Digite a nota 2: ");
+                    int idadeAluno = coletarInt("Digite a idade: ", 1);
+                    int matriculaAluno = coletarInt("Digite a matrícula: ", 1, 100000);
+                    double nota1Aluno = coletarDouble("Digite a nota 1: ", 0, 10);
+                    double nota2Aluno = coletarDouble("Digite a nota 2: ", 0, 10);
                     listaAlunos.add(new Aluno(nomeAluno, idadeAluno, matriculaAluno, nota1Aluno, nota2Aluno));
                 }
                 case 3 -> {
@@ -133,6 +60,7 @@ public class Universidade_Teste {
                 case 4 -> encerrar = true;
             }
         } while (!encerrar);
+        fecharScanner();
         System.out.println("Encerrando... Volte Sempre!");
     }
 }
