@@ -2,7 +2,6 @@ package Fernanda.Sistema_Banco;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 import static Bibliotecas.Coletar.*;
 
@@ -22,9 +21,7 @@ public class Sistema {
 
     private void cadastrarCliente(){
         // Permite que o usuário cadastre um novo cliente com entrada via console.
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Digite o nome: ");
-        String nome = sc.nextLine().trim();
+        String nome = coletarString("Digite o nome: ");
         Cliente cliente = new Cliente(nome);
         this.listaclientes.add(cliente);
         System.out.println("Cliente cadastrado com sucesso.");

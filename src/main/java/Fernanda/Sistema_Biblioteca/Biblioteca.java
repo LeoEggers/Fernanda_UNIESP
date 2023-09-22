@@ -3,7 +3,7 @@ package Fernanda.Sistema_Biblioteca;
 import java.util.ArrayList;
 import static Bibliotecas.Coletar.*;
 
-public class Biblioteca {
+class Biblioteca {
     private ArrayList<Leitor> leitoresCadastrados;
     private ArrayList<Livro> livrosCadastrados;
     private ArrayList<Livro> livrosDisponiveis;
@@ -41,7 +41,7 @@ public class Biblioteca {
 
     private void emprestarLivro(Livro livro, Leitor leitor, int dias){
         if (livro.isDisponivel()){
-            leitor.livrosRetirados.add(livro);
+            leitor.getLivrosRetirados().add(livro);
             livro.setLeitor(leitor); // setLeitor altera livro.disponivel automaticamente.
             livro.setDiasDeEmprestimo(dias);
             this.livrosEmprestados.add(livro);
@@ -55,7 +55,7 @@ public class Biblioteca {
     }
 
     private void receberLivro(Livro livro, Leitor leitor){
-        leitor.livrosRetirados.remove(livro);
+        leitor.getLivrosRetirados().remove(livro);
         livro.leitor = null;
         livro.setDisponivel(true);
         this.livrosEmprestados.remove(livro);

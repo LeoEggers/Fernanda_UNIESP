@@ -1,37 +1,37 @@
 package Fernanda.Sistema_Banco;
 
-public class Cliente {
-    String nome;
-    double saldo;
+class Cliente {
+    private final String nome;
+    private double saldo;
 
-    public Cliente(String nome, double saldo) {
+    Cliente(String nome, double saldo) {
         this.nome = nome;
         this.saldo = saldo;
     }
 
-    public Cliente(String nome){
+    Cliente(String nome){
         this.nome = nome;
         this.saldo = 0;
     }
 
-    public String getNome() {
+    String getNome() {
         return nome;
     }
 
-    public double getSaldo() {
+    double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    void setSaldo(double saldo) {
         this.saldo = saldo;
     }
 
-    public void consultarSaldo(){
+    void consultarSaldo(){
         System.out.printf("%s possui R$%.2f em sua conta bancária.\n",
                 this.getNome(), this.getSaldo());
     }
 
-    public void depositar(double valor_do_deposito){
+    void depositar(double valor_do_deposito){
         this.setSaldo(this.getSaldo() + valor_do_deposito);
         System.out.printf("""
                         Operação realizada com sucesso.
@@ -41,7 +41,7 @@ public class Cliente {
         this.consultarSaldo();
     }
 
-    public void sacar(double valor_do_saque){
+    void sacar(double valor_do_saque){
         this.setSaldo(this.getSaldo() - valor_do_saque);
         System.out.printf("""
                         Operação realizada com sucesso.
@@ -51,7 +51,7 @@ public class Cliente {
         this.consultarSaldo();
     }
 
-    public void transferir(Cliente cliente, double valor_da_transferencia){
+    void transferir(Cliente cliente, double valor_da_transferencia){
         this.setSaldo(this.getSaldo() - valor_da_transferencia);
         cliente.setSaldo(cliente.getSaldo() + valor_da_transferencia);
         System.out.printf("""

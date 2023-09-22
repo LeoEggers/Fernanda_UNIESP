@@ -3,7 +3,7 @@ package Fernanda.Sistema_Biblioteca;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Livro {
+class Livro {
 
     private final String titulo;
     private final String autor;
