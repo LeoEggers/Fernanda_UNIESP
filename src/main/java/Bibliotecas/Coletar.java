@@ -8,7 +8,7 @@ import java.util.Scanner;
  * Ela oferece validação de entrada para garantir que os valores informados estejam dentro de
  * intervalos específicos (quando aplicável) e trata exceções de entrada inválida.
  */
-public class Coletar {
+public abstract class Coletar {
     public static Scanner sc = new Scanner(System.in);
 
     /**
